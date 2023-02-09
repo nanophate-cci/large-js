@@ -9,4 +9,4 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: npm
-      - run: ls -la
+      - run: ls -la node_modules
