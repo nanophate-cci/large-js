@@ -3,10 +3,28 @@ orbs:
   node: circleci/node@5.0.2
 
 jobs:
-  build:
+  tar:
+    parameters:
+      use-pigz:
+        type: boolean
     executor: node/default
+    resource_class: large
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
       - run: ls -la node_modules
+      - when:
+          condition: << parameters.use-pigz >>
+          steps:
+            - run: sudo apt install pigz
+      - run:
+          time tar <<#parameters.use-pigz>>-I pigz -cvf<</parameters.use-pigz>><<^parameters.use-pigz>>-cvzf<</parameters.use-pigz>> nodemod.tar.gz node_modules
+
+workflows:
+  main:
+    jobs:
+      - tar:
+          use-pigz: false
+          name: tar-as-usual
+      - tar:
+          use-pigz: true
+          name: tar-with-pigz
