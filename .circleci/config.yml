@@ -13,6 +13,7 @@ jobs:
       - checkout
       - node/install-packages:
           cache-path: ~/.npm
+          override-ci-command: npm install
       - run: ls -la node_modules
       - when:
           condition: << parameters.use-pigz >>
