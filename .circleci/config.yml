@@ -12,7 +12,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          pkg-manager: npm
+          cache-path: ~/project/node_modules
       - run: ls -la node_modules
       - when:
           condition: << parameters.use-pigz >>
